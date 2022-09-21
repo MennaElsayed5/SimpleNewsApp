@@ -11,7 +11,8 @@ protocol LocalDataSourcable{
     func saveArticleToCoreData(articles: Articles) throws
     func removeArticleFromCoreData(articleTitle: String) throws
     func getArticleFromCoreData() throws -> [Articles]
-    func isFavouriteArticle(articleTitle: String) throws -> Bool
+    func isFavouriteArticle(data: String,auther:String) throws -> Bool
+    func saveoCoreData(title: String,img:String,desc:String,source:String, data: String,auther:String )throws
 }
 class LocalDataSource:LocalDataSourcable{
     private var context: NSManagedObjectContext!
@@ -23,6 +24,13 @@ class LocalDataSource:LocalDataSourcable{
     }
     func saveArticleToCoreData(articles: Articles) throws {
         let product = NSManagedObject(entity: entity, insertInto: context)
+//        let artile = NSManagedObject(entity: entity, insertInto: context)
+//        artile.setValue(articles.title, forKey: "articleTitle")
+//        artile.setValue(articles.urlToImage, forKey: "articleImg")
+//        artile.setValue(articles.description, forKey: "articleDesc")
+//        artile.setValue(articles.source?.name, forKey: "articleSource")
+//        artile.setValue(articles.publishedAt, forKey: "articleData")
+
         product.setValue(articles.articleTitle, forKey: "articleTitle")
         product.setValue(articles.articleImg, forKey: "articleImg")
         product.setValue(articles.articleDesc, forKey: "articleDesc")
@@ -35,7 +43,24 @@ class LocalDataSource:LocalDataSourcable{
             throw error
         }
     }
-    
+    func saveoCoreData(title: String,img:String,desc:String,source:String, data: String, auther:String )throws{
+        let news = Articles(entity: entity, insertInto: context)
+        news.articleTitle=title
+        news.articleImg=img
+        news.articleDesc=desc
+        news.articleSource=source
+        news.articleData=data
+        news.auther=auther
+
+        do{
+            try context.save()
+
+        }catch let error as NSError{
+            throw error
+        }
+
+
+    }
     func removeArticleFromCoreData(articleTitle: String) throws{
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Articles")
         let myPredicate = NSPredicate(format: "articleTitle == %@", articleTitle)
@@ -69,11 +94,11 @@ class LocalDataSource:LocalDataSourcable{
         }
     }
     
-    func isFavouriteArticle(articleTitle: String) throws -> Bool {
+    func isFavouriteArticle(data: String,auther:String) throws -> Bool {
         do{
             let news = try self.getArticleFromCoreData()
         for item in news{
-        if item.articleTitle == articleTitle {
+            if item.articleData == data && item.auther == auther {
             return true
             }
         }
