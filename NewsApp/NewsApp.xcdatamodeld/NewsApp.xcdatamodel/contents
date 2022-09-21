@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E230" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Articles" representedClassName="Articles" syncable="YES" codeGenerationType="class">
+        <attribute name="articleData" optional="YES" attributeType="String"/>
+        <attribute name="articleDesc" optional="YES" attributeType="String"/>
+        <attribute name="articleImg" optional="YES" attributeType="String"/>
+        <attribute name="articleSource" optional="YES" attributeType="String"/>
+        <attribute name="articleTitle" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Articles" positionX="-63" positionY="-18" width="128" height="104"/>
+    </elements>
 </model>
