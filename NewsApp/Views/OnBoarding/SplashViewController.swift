@@ -26,7 +26,6 @@ class SplashViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
             guard let self = self else {return}
             let tabBar = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-          //  let onboarding = FirstOnBoardingViewController(nibName:"FirstOnBoardingViewController", bundle: nil)
             let onboarding = self.storyboard?.instantiateViewController(identifier: "CountryOnBoardingViewController") as! CountryOnBoardingViewController
             if Utilities.utilities.isFirstTimeInApp(){
                 self.navigationController?.pushViewController(tabBar, animated: true)

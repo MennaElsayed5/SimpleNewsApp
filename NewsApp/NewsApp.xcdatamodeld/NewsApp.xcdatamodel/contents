@@ -6,8 +6,9 @@
         <attribute name="articleImg" optional="YES" attributeType="String"/>
         <attribute name="articleSource" optional="YES" attributeType="String"/>
         <attribute name="articleTitle" optional="YES" attributeType="String"/>
+        <attribute name="auther" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Articles" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="Articles" positionX="-63" positionY="-18" width="128" height="119"/>
     </elements>
 </model>
