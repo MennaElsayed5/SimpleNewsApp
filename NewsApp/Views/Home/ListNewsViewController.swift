@@ -9,22 +9,26 @@ import UIKit
 import RxSwift
 import Kingfisher
 class ListNewsViewController: UIViewController {
+    var countryName:String?
+    var catgory:String?
+    var tabBarView:TabBarViewController?
     @IBOutlet weak var newsTb: UITableView!
     var newsViewModel: NewsViewModel?
     let disBag = DisposeBag()
-    var arrayOfArticle: [Articles] = []
+    var arrayOfArticle: [Article] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("naamm\(countryName)naaaaaam\(catgory)")
         newsViewModel = NewsViewModel(appDelegate: ((UIApplication.shared.delegate as? AppDelegate)!))
         self.newsTb.delegate=self
-             self.newsTb.dataSource=self
+        self.newsTb.dataSource=self
         let newsCell = UINib(nibName: "NewsTableViewCell", bundle: nil)
         newsTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
         fetchData()
         // Do any additional setup after loading the view.
     }
     func fetchData(){
-       newsViewModel?.getNewsFromApi(countryName: "us", catgoryId: "entertainment")
+        newsViewModel?.getNewsFromApi(countryName:countryName ?? "eg", catgoryId: catgory ?? "sports")
     //    newsViewModel?.allNews()
         newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
             .observe(on: MainScheduler.asyncInstance)

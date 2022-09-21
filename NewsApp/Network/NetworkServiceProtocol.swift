@@ -8,4 +8,7 @@
 import Foundation
 protocol NetworkServiceProtocol{
     func getNews(countryName:String,catgoryId:String,completion:@escaping(Result<News,ErrorType>)->Void)
+//    func getall(completion:@escaping(Result<News,ErrorType>)->Void)
+
+    
 }
