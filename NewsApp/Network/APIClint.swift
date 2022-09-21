@@ -8,9 +8,14 @@
 import Foundation
 
 class APIClint:NetworkServiceProtocol {
+//    func getall(completion: @escaping (Result<News, ErrorType>) -> Void) {
+//        request(endpoint: .allNews, method: .GET, compeletion: completion)
+//    }
+    
     func getNews(countryName: String, catgoryId: String, completion: @escaping (Result<News, ErrorType>) -> Void) {
         request(endpoint: .getNews(country: countryName, catgory: catgoryId), method: .GET, compeletion: completion)
     }
+    
     
     private let BASE_URL = "https://newsapi.org/v2/top-headlines?"
     func request<T:Codable>(endpoint: EndPoints, method: Methods, compeletion: @escaping (Result<T, ErrorType>) -> Void) {
@@ -48,11 +53,11 @@ class APIClint:NetworkServiceProtocol {
             do{
                 let object = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(object))
+                print("response\(object)")
                 
             }    catch {
                 print((response as! HTTPURLResponse).statusCode)
                     completion(.failure(.parsingError))
-                
 
                 }
         }.resume()

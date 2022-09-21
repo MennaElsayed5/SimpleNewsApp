@@ -9,12 +9,12 @@ import RxCocoa
 import Foundation
 protocol NewsProtocolViewModel{
     func getNewsFromApi(countryName:String,catgoryId:String)
-    var  newsObservable: Observable<[Articles]>{get set}
+    var  newsObservable: Observable<[Article]>{get set}
 }
 final class NewsViewModel:NewsProtocolViewModel{
     var network = APIClint()
-    var newsObservable: Observable<[Articles]>
-    private var allnewsSubject : PublishSubject = PublishSubject<[Articles]>()
+    var newsObservable: Observable<[Article]>
+    private var allnewsSubject : PublishSubject = PublishSubject<[Article]>()
     
     init(appDelegate :AppDelegate){
         newsObservable = allnewsSubject.asObserver()
