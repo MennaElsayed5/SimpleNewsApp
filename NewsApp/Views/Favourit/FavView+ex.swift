@@ -39,7 +39,8 @@ extension FavViewController: UITableViewDelegate,UITableViewDataSource{
                cell.addToFav = {
                    self.showDeleteAlert(indexPath: indexPath)
                }
-               cell.favBtn.setTitle("Remove", for: .normal)
+        cell.favBtn.setTitle("", for: .normal)
+               cell.favBtn.setImage(UIImage(systemName: "trash"), for : UIControl.State.normal)
                return cell
            }
            func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{

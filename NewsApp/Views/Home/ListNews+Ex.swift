@@ -7,6 +7,7 @@
 import Kingfisher
 import Foundation
 extension ListNewsViewController: UITableViewDelegate,UITableViewDataSource{
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -19,7 +20,8 @@ extension ListNewsViewController: UITableViewDelegate,UITableViewDataSource{
                 let url = URL(string: arrayOfArticle[indexPath.row].urlToImage ?? "news")
                 let processor = DownsamplingImageProcessor(size: cell.imgNews.bounds.size)
                              |> RoundCornerImageProcessor(cornerRadius: 20)
-                cell.newsTitle.text = arrayOfArticle[indexPath.row].title
+               cell.newsTitle.text = arrayOfArticle[indexPath.row].title
+                cell.newsTitle.isUserInteractionEnabled=true
                 cell.imgNews.kf.indicatorType = .activity
                 cell.imgNews.kf.setImage(
                     with: url,
@@ -45,6 +47,7 @@ extension ListNewsViewController: UITableViewDelegate,UITableViewDataSource{
                             try newsViewModel?.saveoCoreData(title: arrayOfArticle[indexPath.row].title ?? "title", img: arrayOfArticle[indexPath.row].urlToImage ?? "news", desc:arrayOfArticle[indexPath.row].description ?? "des", source: arrayOfArticle[indexPath.row].source?.name ?? "source", data: arrayOfArticle[indexPath.row].publishedAt ?? "2022/9/23", auther: arrayOfArticle[indexPath.row].author ?? "auther", completion: {  result in
                                   switch result{
                                   case true:
+                                      Utilities.utilities.showMessage(message: "added to Favourite", error: false)
                                       print("add to core ")
                                   case false :
                                       print("faild to add to core")
@@ -58,6 +61,9 @@ extension ListNewsViewController: UITableViewDelegate,UITableViewDataSource{
                 }
         
                 return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        newsViewModel?.openWebsite(url: arrayOfArticle[indexPath.row].url ?? "https://www.washingtonpost.com/nation/2022/09/21/united-nations-zelensky/")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

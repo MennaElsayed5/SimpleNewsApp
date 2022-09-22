@@ -116,6 +116,7 @@ extension ListNewsViewController{
                 case true:
                 print("remove from cart")
                 self.getArticlesFromCoreData()
+                Utilities.utilities.showMessage(message: "remove from Favourite", error: false)
                 self.newsTb.reloadData()
                 case false:
                     print("cann't delet")

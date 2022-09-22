@@ -5,8 +5,8 @@
 //  Created by Menna on 20/09/2022.
 //
 import RxSwift
-import RxCocoa
 import Foundation
+import UIKit
 protocol NewsProtocolViewModel{
     func getNewsFromApi(countryName:String,catgoryId:String)
     var  newsObservable: Observable<[Article]>{get set}
@@ -19,23 +19,24 @@ protocol NewsProtocolViewModel{
     func checkConnection()
     var  searchObservable: Observable<[Article]>{get set}
     var networkObservable:Observable<Bool> { get set }
+    func openWebsite(url: String)
 
 }
 final class NewsViewModel:NewsProtocolViewModel{
-    var networkObservable: Observable<Bool>
-    
- 
-    
     var localDataSource:LocalDataSourcable?
+    var network = APIClint()
+
     var articleList:[Articles]?
     var isFav : Bool?
     
-    var network = APIClint()
     var searchObservable: Observable<[Article]>
     var newsObservable: Observable<[Article]>
+    var networkObservable: Observable<Bool>
+
     private var allnewsSubject : PublishSubject = PublishSubject<[Article]>()
     private var searchSubject : PublishSubject = PublishSubject<[Article]>()
     var networkSubject = PublishSubject<Bool>()
+    
     init(appDelegate: AppDelegate){
         localDataSource = LocalDataSource(appDelegate: appDelegate)
         newsObservable = allnewsSubject.asObserver()
@@ -54,7 +55,6 @@ final class NewsViewModel:NewsProtocolViewModel{
                 self?.allnewsSubject.asObserver().onError(error)
             }
         }
-
     }
     
     func searchArticales(text: String) {
@@ -129,6 +129,16 @@ final class NewsViewModel:NewsProtocolViewModel{
             }
         }
     }
+    func openWebsite(url: String) {
+        let application = UIApplication.shared
+        if application.canOpenURL(URL(string: url)!){
+            application.open(URL(string: url)!)
+        }else{
+            application.open(URL(string: "https://\(url)")!)
+
+        }
+    }
+    
     
 
 }

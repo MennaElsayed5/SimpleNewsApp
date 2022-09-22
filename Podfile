@@ -11,5 +11,8 @@ target 'NewsApp' do
 pod 'ReachabilitySwift'
 pod 'lottie-ios'
 pod 'DropDown'
+pod 'SwiftMessages'
+pod 'NVActivityIndicatorView'
+
 
 end
