@@ -135,4 +135,8 @@ extension ListNewsViewController{
         }))
         self.present(alert, animated: true, completion: nil)
     }
+   @objc func titleTapped(sender:UIButton){
+       let url = sender.accessibilityValue!
+       newsViewModel?.openWebsite(url: url)
+   }
 }

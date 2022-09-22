@@ -7,6 +7,7 @@
 import Kingfisher
 import Foundation
 extension ListNewsViewController: UITableViewDelegate,UITableViewDataSource{
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -19,7 +20,10 @@ extension ListNewsViewController: UITableViewDelegate,UITableViewDataSource{
                 let url = URL(string: arrayOfArticle[indexPath.row].urlToImage ?? "news")
                 let processor = DownsamplingImageProcessor(size: cell.imgNews.bounds.size)
                              |> RoundCornerImageProcessor(cornerRadius: 20)
-                cell.newsTitle.text = arrayOfArticle[indexPath.row].title
+              //  cell.newsTitle.text = arrayOfArticle[indexPath.row].title
+        cell.articleTitle.accessibilityValue = arrayOfArticle[indexPath.row].url
+        cell.articleTitle.addTarget(self, action: #selector(self.titleTapped), for: .touchUpInside)
+                cell.newsTitle.isUserInteractionEnabled=true
                 cell.imgNews.kf.indicatorType = .activity
                 cell.imgNews.kf.setImage(
                     with: url,
