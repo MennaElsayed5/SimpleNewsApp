@@ -121,8 +121,6 @@
 		3E2E14C228D9EA1D0094273E /* NewsApp */ = {
 			isa = PBXGroup;
 			children = (
-				3E2E14C328D9EA1D0094273E /* AppDelegate.swift */,
-				3E2E14C528D9EA1D0094273E /* SceneDelegate.swift */,
 				3E2E14D428D9EA1F0094273E /* Info.plist */,
 				3ED734C228DC03A3000BE873 /* App */,
 				3E9D03C428DAA82A00178430 /* LocalDataSource */,
@@ -257,6 +255,8 @@
 		3ED734C228DC03A3000BE873 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				3E2E14C328D9EA1D0094273E /* AppDelegate.swift */,
+				3E2E14C528D9EA1D0094273E /* SceneDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";

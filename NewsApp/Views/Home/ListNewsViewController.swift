@@ -30,6 +30,7 @@ class ListNewsViewController: UIViewController {
         newsTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
         refreshController.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         newsTb.addSubview(refreshController)
+       // dataRequest()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -37,19 +38,58 @@ class ListNewsViewController: UIViewController {
         getArticlesFromCoreData()
 
     }
-    func fetchData(){
-        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: catgory ?? "general")
-        print("userCountry\(Utilities.utilities.getUserCountry())")
-        newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe { news in
-                self.arrayOfArticle = news
-                print("newwws\(news.count)")
-                self.newsTb.reloadData()
-            } onError: { error in
-                print(error)
-            }.disposed(by: disBag)
+    func dataRequest(){
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()   // <<---
+        func firstFetchData(){
+            newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[0] as! String )
+            print("country\(Utilities.utilities.getUserCountry())")
+            print("country\(Utilities.utilities.getArrCotgory()[0])")
+            newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+                .observe(on: MainScheduler.asyncInstance)
+                .subscribe { news in
+                    self.arrayOfArticle = news
+                    print("firstnewwws\(news.count)")
+                    self.newsTb.reloadData()
+                    dispatchGroup.leave()
+                } onError: { error in
+                    print(error)
+                }.disposed(by: disBag)
+        }
+        dispatchGroup.enter()
+        func secFetchData(){
+            newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[1] as! String )
+            print("country\(Utilities.utilities.getUserCountry())")
+            print("country\(Utilities.utilities.getArrCotgory()[1])")
+            newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+                .observe(on: MainScheduler.asyncInstance)
+                .subscribe { news in
+                    self.arrayOfArticle.append(contentsOf: news)
+                    print("firstnewwws\(news.count)")
+                    self.newsTb.reloadData()
+                    dispatchGroup.leave()
+                } onError: { error in
+                    print(error)
+                }.disposed(by: disBag)
+        }
+        dispatchGroup.notify(queue: .main) {
+            // whatever you want to do when both are done
+        }
     }
+//    func fetchData(){
+//        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[0] as! String )
+//        print("country\(Utilities.utilities.getUserCountry())")
+//        print("country\(Utilities.utilities.getArrCotgory()[0])")
+//        newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+//            .observe(on: MainScheduler.asyncInstance)
+//            .subscribe { news in
+//                self.arrayOfArticle = news
+//                print("newwws\(news.count)")
+//                self.newsTb.reloadData()
+//            } onError: { error in
+//                print(error)
+//            }.disposed(by: disBag)
+//    }
     func checkNetwork() {
         newsViewModel?.checkConnection()
         newsViewModel?.networkObservable.subscribe {[weak self] isConn in
@@ -58,7 +98,7 @@ class ListNewsViewController: UIViewController {
                 self?.notConnectionView.isHidden = false
             }else{
                 self?.notConnectionView.isHidden = true
-                self?.fetchData()
+                self?.dataRequest()
             }
         } onError: { error in
             print("connection error network")

@@ -22,12 +22,12 @@ class Utilities{
     func getUserCountry()-> String{
         return UserDefaults.standard.value(forKey: "country") as? String ?? ""
     }
-    func addUserCotgory(userCotgory: String){
+    func addArrCotgory(userCotgory: Array<Any>){
         UserDefaults.standard.set(userCotgory, forKey: "catgory")
     }
     
-    func getUserCotgory()-> String{
-        return UserDefaults.standard.value(forKey: "catgory") as? String ?? ""
+    func getArrCotgory()-> Array<Any>{
+        return UserDefaults.standard.value(forKey: "catgory") as? Array<Any> ?? []
     }
     func showMessage(message:String, error:Bool){
         

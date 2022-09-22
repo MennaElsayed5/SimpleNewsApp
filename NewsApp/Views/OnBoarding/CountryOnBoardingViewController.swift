@@ -21,7 +21,6 @@ class CountryOnBoardingViewController: UIViewController {
       
         dropDown.selectionAction = {
             [unowned self] (index: Int, item: String) in
-              print("Selected item: \(item) at index: \(index)")
             self.lableCountry.text = countryArray[index]
         }
         // Do any additional setup after loading the view.
@@ -34,9 +33,18 @@ class CountryOnBoardingViewController: UIViewController {
     
     @IBAction func nextBtn(_ sender: Any) {
         let catgory = self.storyboard?.instantiateViewController(identifier: "CatgoryOnboardingViewController") as! CatgoryOnboardingViewController
-        Utilities.utilities.addUserCountry(userCountry: "\(lableCountry.text ?? "us")")
+        Utilities.utilities.addUserCountry(userCountry: "\( lableCountry.text ?? "eg")")
         print("userCountry\(Utilities.utilities.getUserCountry())")
-         self.navigationController?.pushViewController(catgory, animated: true)
+        if lableCountry.text == "choose country " {
+            let alert = UIAlertController(title: "Select Country", message: "please, select your country", preferredStyle: .alert)
+            let okBtn = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alert.addAction(okBtn)
+            self.present(alert, animated: true, completion: nil)
+        }
+        else{
+            self.navigationController?.pushViewController(catgory, animated: true)
+        
+    }
     }
     /*
     // MARK: - Navigation
