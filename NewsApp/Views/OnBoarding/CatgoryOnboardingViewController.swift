@@ -23,13 +23,19 @@ class CatgoryOnboardingViewController: UIViewController {
     @IBAction func stattBtn(_ sender: Any) {
           let home = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
         items.removeAll()
-        if let selectedRow = catgoryTb.indexPathsForSelectedRows{
-            for iPath in selectedRow{
-               items.append(catgoryArr[iPath.row])
-                Utilities.utilities.addArrCotgory(userCotgory: items)
+            if let selectedRow = catgoryTb.indexPathsForSelectedRows{
+                for iPath in selectedRow{
+                   items.append(catgoryArr[iPath.row])
+                   
+                }
             }
+        if items.count == 3{
+            Utilities.utilities.addArrCotgory(userCotgory: items)
+            self.navigationController?.pushViewController(home, animated: true)
         }
-          self.navigationController?.pushViewController(home, animated: true)
+        else{
+           alertWarning(indexPath: [], title: "info", message: "please selecte 3 favourit catgory")
+        }
     }
     
 

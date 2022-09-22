@@ -20,7 +20,7 @@ class NewsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        newsViewModel = NewsViewModel(appDelegate: ((UIApplication.shared.delegate as? AppDelegate)!))
+        newsViewModel = NewsViewModel()
 
     }
 

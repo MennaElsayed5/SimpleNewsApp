@@ -13,7 +13,7 @@ class SearchViewController: UIViewController,UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var searchTb: UITableView!
-    var newsViewModel: NewsViewModel?
+    var newsViewModel: NewsProtocolViewModel?
     let disBag = DisposeBag()
     var arrayOfArticle: [Article] = []
     private  var isConn:Bool = false
@@ -24,7 +24,7 @@ class SearchViewController: UIViewController,UISearchBarDelegate {
     @IBOutlet weak var noConnctionView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        newsViewModel = NewsViewModel(appDelegate: ((UIApplication.shared.delegate as? AppDelegate)!))
+        newsViewModel = NewsViewModel()
         self.searchTb.delegate=self
              self.searchTb.dataSource=self
         let newsCell = UINib(nibName: "NewsTableViewCell", bundle: nil)

@@ -10,7 +10,6 @@ import UIKit
 protocol NewsProtocolViewModel{
     func getNewsFromApi(countryName:String,catgoryId:String)
     var  newsObservable: Observable<[Article]>{get set}
-    func addnewsToCoreData(article:Articles,completion: @escaping (Bool)->Void) throws
     func checkNewsInCoreData(data: String,auther:String)
     func getAllnewsInCoreData(completion: @escaping (Bool)->Void) throws
     func removeNewsFromCoreDatat(title:String, completionHandler:@escaping (Bool) -> Void) throws
@@ -20,6 +19,8 @@ protocol NewsProtocolViewModel{
     var  searchObservable: Observable<[Article]>{get set}
     var networkObservable:Observable<Bool> { get set }
     func openWebsite(url: String)
+    var  articleList : [Articles]? {get set}
+    var isFav:Bool? {get set}
 
 }
 final class NewsViewModel:NewsProtocolViewModel{
@@ -37,8 +38,8 @@ final class NewsViewModel:NewsProtocolViewModel{
     private var searchSubject : PublishSubject = PublishSubject<[Article]>()
     var networkSubject = PublishSubject<Bool>()
     
-    init(appDelegate: AppDelegate){
-        localDataSource = LocalDataSource(appDelegate: appDelegate)
+    init(){
+        localDataSource = LocalDataSource(appDelegate: ((UIApplication.shared.delegate as? AppDelegate)!))
         newsObservable = allnewsSubject.asObserver()
         searchObservable = searchSubject.asObserver()
         networkObservable = networkSubject.asObserver()
@@ -76,17 +77,6 @@ final class NewsViewModel:NewsProtocolViewModel{
             completion(true)
             
         }catch let error {
-            completion(false)
-            throw error
-        }
-    }
-    
-    func addnewsToCoreData(article:Articles,completion: @escaping (Bool) -> Void) throws {
-        do{
-            try  localDataSource?.saveArticleToCoreData(articles: article)
-            completion(true)
-        }
-        catch let error{
             completion(false)
             throw error
         }

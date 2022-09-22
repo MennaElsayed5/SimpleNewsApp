@@ -36,10 +36,7 @@ class CountryOnBoardingViewController: UIViewController {
         Utilities.utilities.addUserCountry(userCountry: "\( lableCountry.text ?? "eg")")
         print("userCountry\(Utilities.utilities.getUserCountry())")
         if lableCountry.text == "choose country " {
-            let alert = UIAlertController(title: "Select Country", message: "please, select your country", preferredStyle: .alert)
-            let okBtn = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alert.addAction(okBtn)
-            self.present(alert, animated: true, completion: nil)
+          alertWarning(indexPath: [], title: "info", message: "please, select your country")
         }
         else{
             self.navigationController?.pushViewController(catgory, animated: true)

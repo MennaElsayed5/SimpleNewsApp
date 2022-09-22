@@ -17,16 +17,25 @@
                 <rect key="frame" x="0.0" y="0.0" width="352" height="71"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kw7-Mi-ZGd">
-                        <rect key="frame" x="20" y="14" width="222" height="39"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kw7-Mi-ZGd">
+                        <rect key="frame" x="20" y="14" width="312" height="39"/>
                         <color key="tintColor" systemColor="systemRedColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="312" id="8Yy-Ot-k7o"/>
+                            <constraint firstAttribute="height" constant="39" id="Qxw-nM-Fy2"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="tintColor" systemColor="systemRedColor"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="kw7-Mi-ZGd" secondAttribute="bottom" constant="18" id="L6a-yj-coS"/>
+                    <constraint firstItem="kw7-Mi-ZGd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" symbolic="YES" id="dO6-Pr-DOZ"/>
+                    <constraint firstItem="kw7-Mi-ZGd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="r3A-Yu-0AY"/>
+                    <constraint firstAttribute="trailing" secondItem="kw7-Mi-ZGd" secondAttribute="trailing" constant="20" symbolic="YES" id="xWM-G9-DhO"/>
+                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
