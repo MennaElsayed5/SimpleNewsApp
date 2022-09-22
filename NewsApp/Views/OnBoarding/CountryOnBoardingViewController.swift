@@ -34,7 +34,8 @@ class CountryOnBoardingViewController: UIViewController {
     
     @IBAction func nextBtn(_ sender: Any) {
         let catgory = self.storyboard?.instantiateViewController(identifier: "CatgoryOnboardingViewController") as! CatgoryOnboardingViewController
-        catgory.countaryName = lableCountry.text
+        Utilities.utilities.addUserCountry(userCountry: "\(lableCountry.text ?? "us")")
+        print("userCountry\(Utilities.utilities.getUserCountry())")
          self.navigationController?.pushViewController(catgory, animated: true)
     }
     /*

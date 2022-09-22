@@ -13,13 +13,11 @@ struct selectModel{
 }
 class CatgoryOnboardingViewController: UIViewController {
     @IBOutlet weak var catgoryTb: UITableView!
-    var countaryName : String?
     var catgoryArr = [selectModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.catgoryTb.delegate=self
         self.catgoryTb.dataSource=self
-        print("countaryName\(countaryName)")
         let catgoryCell = UINib(nibName: "CatgoryTableViewCell", bundle: nil)
         catgoryTb.register(catgoryCell, forCellReuseIdentifier: "CatgoryTableViewCell")
         appendData()
@@ -71,7 +69,6 @@ extension CatgoryOnboardingViewController: UITableViewDataSource,UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let home = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
        //  catgory.countaryName = lableCountry.text
-        home.countryName = countaryName
         home.catgory = catgoryArr[indexPath.row].name
          self.navigationController?.pushViewController(home, animated: true)
     }

@@ -23,7 +23,6 @@ class ListNewsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    //    print("naamm\(countryName)naaaaaam\(catgory)")
         newsViewModel = NewsViewModel(appDelegate: ((UIApplication.shared.delegate as? AppDelegate)!))
         self.newsTb.delegate=self
         self.newsTb.dataSource=self
@@ -39,7 +38,8 @@ class ListNewsViewController: UIViewController {
 
     }
     func fetchData(){
-        newsViewModel?.getNewsFromApi(countryName:countryName ?? "us", catgoryId: catgory ?? "general")
+        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: catgory ?? "general")
+        print("userCountry\(Utilities.utilities.getUserCountry())")
         newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
             .observe(on: MainScheduler.asyncInstance)
             .subscribe { news in
