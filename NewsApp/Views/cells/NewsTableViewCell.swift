@@ -9,7 +9,6 @@ import UIKit
 
 class NewsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var articleTitle: UIButton!
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var shortDescription: UITextView!
     @IBOutlet weak var imgNews: UIImageView!

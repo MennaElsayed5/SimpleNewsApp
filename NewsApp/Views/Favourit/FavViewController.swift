@@ -26,12 +26,12 @@ class FavViewController: UIViewController {
         getArticlesFromCoreData()
     }
     func getArticlesFromCoreData(){
+        self.emptyView.isHidden=false
         do{
             try  newsViewModel?.getAllnewsInCoreData(completion: { response in
                 switch response{
                 case true:
-                    self.emptyView.isHidden=false
-                    
+                    self.emptyView.isHidden=true
                     print("data retrived successfuly")
                 case false:
                     print("data cant't retrieved")
@@ -50,7 +50,11 @@ class FavViewController: UIViewController {
                  case true:
                 print("remove from cart")
                 self.getArticlesFromCoreData()
-                self.favTb.reloadData()
+                Utilities.utilities.showMessage(message: "remove from Favourite", error: false)
+                    self.favTb.reloadData()
+                    if self.articles.count == 0 {
+                    self.emptyView.isHidden=false
+                    }
                 case false:
                 print("can't delet")
              }

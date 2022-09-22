@@ -17,6 +17,8 @@ class SearchViewController: UIViewController,UISearchBarDelegate {
     let disBag = DisposeBag()
     var arrayOfArticle: [Article] = []
     private  var isConn:Bool = false
+    var articles : [Articles] = []
+    var isFav : Bool?
     private  let refreshController = UIRefreshControl()
     @IBOutlet weak var noSershView: UIView!
     @IBOutlet weak var noConnctionView: UIView!
@@ -30,9 +32,11 @@ class SearchViewController: UIViewController,UISearchBarDelegate {
         searchBar.delegate=self
         refreshController.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         searchTb.addSubview(refreshController)
+      //  self.searchTb.isHidden=false
+
     }
+    
     func searchRequest(){
-        self.searchTb.isHidden=true
         newsViewModel?.searchArticales(text: "\(searchBar.text ?? "news")")
         newsViewModel?.searchObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
             .observe(on: MainScheduler.asyncInstance)
@@ -97,4 +101,51 @@ class SearchViewController: UIViewController,UISearchBarDelegate {
     }
     */
 
+}
+extension SearchViewController{
+    func getArticlesFromCoreData(){
+        do{
+            try  newsViewModel?.getAllnewsInCoreData(completion: { response in
+                //MARK: LSA M5LST4
+                switch response{
+                case true:
+                    print("data retrived successfuly")
+                case false:
+                    print("data cant't retrieved")
+                }
+            })
+        }
+        catch let error{
+            print(error.localizedDescription)
+        }
+        articles = (newsViewModel?.articleList)!
+        searchTb.reloadData()
+            }
+    func deleteItemFromCoreData(index:IndexPath){
+        do{
+            try self.newsViewModel?.removeNewsFromCoreDatat(title: "\(arrayOfArticle[index.row].title ?? "title")", completionHandler: { result in
+                switch result{
+                case true:
+                print("remove from cart")
+                self.getArticlesFromCoreData()
+                Utilities.utilities.showMessage(message: "remove from Favourite", error: false)
+                self.searchTb.reloadData()
+                case false:
+                    print("cann't delet")
+                        }
+            })
+        }
+        catch let error{
+            print(error.localizedDescription)
+        }
+    }
+    func
+    showDeleteAlert(indexPath:IndexPath){
+        let alert = UIAlertController(title: "Already Saved", message: "Are You remove this item from the Fav", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { [self] UIAlertAction in
+        self.deleteItemFromCoreData(index: indexPath)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
