@@ -15,6 +15,20 @@ class Utilities{
     func isFirstTimeInApp() ->Bool {
         return UserDefaults.standard.bool(forKey: "isFirst")
     }
+    func addUserCountry(userCountry: String){
+        UserDefaults.standard.set(userCountry, forKey: "country")
+    }
+    
+    func getUserCountry()-> String{
+        return UserDefaults.standard.value(forKey: "country") as? String ?? ""
+    }
+    func addUserCotgory(userCotgory: String){
+        UserDefaults.standard.set(userCotgory, forKey: "catgory")
+    }
+    
+    func getUserCotgory()-> String{
+        return UserDefaults.standard.value(forKey: "catgory") as? String ?? ""
+    }
     func showMessage(message:String, error:Bool){
         
         let view = MessageView.viewFromNib(layout: .messageView)
