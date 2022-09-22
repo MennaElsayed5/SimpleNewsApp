@@ -116,6 +116,7 @@ extension ListNewsViewController{
                 case true:
                 print("remove from cart")
                 self.getArticlesFromCoreData()
+                Utilities.utilities.showMessage(message: "remove from Favourite", error: false)
                 self.newsTb.reloadData()
                 case false:
                     print("cann't delet")
@@ -135,8 +136,4 @@ extension ListNewsViewController{
         }))
         self.present(alert, animated: true, completion: nil)
     }
-   @objc func titleTapped(sender:UIButton){
-       let url = sender.accessibilityValue!
-       newsViewModel?.openWebsite(url: url)
-   }
 }
