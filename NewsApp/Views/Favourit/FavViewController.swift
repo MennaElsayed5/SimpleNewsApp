@@ -6,20 +6,67 @@
 //
 
 import UIKit
-
+import Kingfisher
 class FavViewController: UIViewController {
     @IBOutlet weak var favTb: UITableView!
-    
+    var articles : [Articles] = []
+    var newsViewModel : NewsViewModel?
+    var localDataSource : LocalDataSource?
+    @IBOutlet weak var emptyView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.favTb.delegate=self
-             self.favTb.dataSource=self
+        self.favTb.dataSource=self
         let newsCell = UINib(nibName: "NewsTableViewCell", bundle: nil)
         favTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
-
+        newsViewModel=NewsViewModel(appDelegate: (UIApplication.shared.delegate as? AppDelegate)!)
         // Do any additional setup after loading the view.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        getArticlesFromCoreData()
+    }
+    func getArticlesFromCoreData(){
+        do{
+            try  newsViewModel?.getAllnewsInCoreData(completion: { response in
+                switch response{
+                case true:
+                    self.emptyView.isHidden=false
+                    
+                    print("data retrived successfuly")
+                case false:
+                    print("data cant't retrieved")
+                }})
+        }
+        catch let error{
+            print(error.localizedDescription)
+        }
+        articles = (newsViewModel?.articleList)!
+        favTb.reloadData()
+            }
+    func deleteItemFromCoreData(index:IndexPath){
+        do{
+            try self.newsViewModel?.removeNewsFromCoreDatat(title: "\(articles[index.row].articleTitle ?? "title")", completionHandler: { result in
+                switch result{
+                 case true:
+                print("remove from cart")
+                self.getArticlesFromCoreData()
+                self.favTb.reloadData()
+                case false:
+                print("can't delet")
+             }
+            })
+        }
+        catch let error{
+            print(error.localizedDescription)
+        }
+    }
+    func showDeleteAlert(indexPath:IndexPath){
+        let alert = UIAlertController(title: "Are you sure?", message: "You will remove this item from the Fav", preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+         alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { [self] UIAlertAction in
+         self.deleteItemFromCoreData(index: indexPath)}))
+         self.present(alert, animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation
@@ -31,23 +78,4 @@ class FavViewController: UIViewController {
     }
     */
 
-}
-extension FavViewController: UITableViewDelegate,UITableViewDataSource{
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell") as! NewsTableViewCell
-        return cell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-            return 230
-       }
-       func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-           return 60
-       }
 }

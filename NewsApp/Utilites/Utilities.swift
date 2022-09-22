@@ -14,4 +14,5 @@ class Utilities{
     func isFirstTimeInApp() ->Bool {
         return UserDefaults.standard.bool(forKey: "isFirst")
     }
+    
 }

@@ -69,7 +69,7 @@ extension CatgoryOnboardingViewController: UITableViewDataSource,UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let home = self.storyboard?.instantiateViewController(identifier: "ListNewsVC") as! ListNewsViewController
+        let home = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
        //  catgory.countaryName = lableCountry.text
         home.countryName = countaryName
         home.catgory = catgoryArr[indexPath.row].name
