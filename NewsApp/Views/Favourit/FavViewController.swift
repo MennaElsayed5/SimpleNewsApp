@@ -10,8 +10,7 @@ import Kingfisher
 class FavViewController: UIViewController {
     @IBOutlet weak var favTb: UITableView!
     var articles : [Articles] = []
-    var newsViewModel : NewsViewModel?
-    var localDataSource : LocalDataSource?
+    var newsViewModel : NewsProtocolViewModel?
     @IBOutlet weak var emptyView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,19 +18,24 @@ class FavViewController: UIViewController {
         self.favTb.dataSource=self
         let newsCell = UINib(nibName: "NewsTableViewCell", bundle: nil)
         favTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
-        newsViewModel=NewsViewModel(appDelegate: (UIApplication.shared.delegate as? AppDelegate)!)
+        newsViewModel=NewsViewModel()
+
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         getArticlesFromCoreData()
+        if articles.isEmpty {
+            self.emptyView.isHidden=false
+        }else{
+            self.emptyView.isHidden=true
+
+        }
     }
     func getArticlesFromCoreData(){
-        self.emptyView.isHidden=false
         do{
             try  newsViewModel?.getAllnewsInCoreData(completion: { response in
                 switch response{
                 case true:
-                    self.emptyView.isHidden=true
                     print("data retrived successfuly")
                 case false:
                     print("data cant't retrieved")

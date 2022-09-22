@@ -33,13 +33,9 @@ class CountryOnBoardingViewController: UIViewController {
     
     @IBAction func nextBtn(_ sender: Any) {
         let catgory = self.storyboard?.instantiateViewController(identifier: "CatgoryOnboardingViewController") as! CatgoryOnboardingViewController
-        Utilities.utilities.addUserCountry(userCountry: "\( lableCountry.text ?? "eg")")
-        print("userCountry\(Utilities.utilities.getUserCountry())")
+        Utilities.utilities.addUserCountry(userCountry: "\( lableCountry.text ?? "us")")
         if lableCountry.text == "choose country " {
-            let alert = UIAlertController(title: "Select Country", message: "please, select your country", preferredStyle: .alert)
-            let okBtn = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alert.addAction(okBtn)
-            self.present(alert, animated: true, completion: nil)
+          alertWarning(indexPath: [], title: "info", message: "please, select your country")
         }
         else{
             self.navigationController?.pushViewController(catgory, animated: true)
