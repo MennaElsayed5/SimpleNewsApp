@@ -6,37 +6,30 @@
 //
 
 import UIKit
-struct selectModel{
-    var name: String
-    var isSelected: Bool
-    
-}
 class CatgoryOnboardingViewController: UIViewController {
     @IBOutlet weak var catgoryTb: UITableView!
-    var catgoryArr = [selectModel]()
+    var catgoryArr = ["business","entertainment","general","health","science","sports","technology"]
+    var items=[String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.catgoryTb.delegate=self
         self.catgoryTb.dataSource=self
         let catgoryCell = UINib(nibName: "CatgoryTableViewCell", bundle: nil)
         catgoryTb.register(catgoryCell, forCellReuseIdentifier: "CatgoryTableViewCell")
-        appendData()
-        // Do any additional setup after loading the view.
+        catgoryTb.allowsSelectionDuringEditing=true
     }
  
-    func appendData(){
-        catgoryArr = [selectModel(name: "business", isSelected: false),
-                      selectModel(name: "entertainment", isSelected: false),
-                      selectModel(name: "general", isSelected: false),
-                      selectModel(name: "health", isSelected: false),
-                      selectModel(name: "science", isSelected: false),
-                      selectModel(name: "sports", isSelected: false),
-                      selectModel(name: "technology", isSelected: false),
-        ]
-    }
+    var arr = [String]()
     @IBAction func stattBtn(_ sender: Any) {
-          let home = self.storyboard?.instantiateViewController(identifier: "ListNewsVC") as! ListNewsViewController
-           self.navigationController?.pushViewController(home, animated: true)
+          let home = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
+        items.removeAll()
+        if let selectedRow = catgoryTb.indexPathsForSelectedRows{
+            for iPath in selectedRow{
+               items.append(catgoryArr[iPath.row])
+                Utilities.utilities.addArrCotgory(userCotgory: items)
+            }
+        }
+          self.navigationController?.pushViewController(home, animated: true)
     }
     
 
@@ -61,15 +54,27 @@ extension CatgoryOnboardingViewController: UITableViewDataSource,UITableViewDele
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CatgoryTableViewCell") as! CatgoryTableViewCell
-
-        cell.name.text = catgoryArr[indexPath.row].name
+        cell.name.text = catgoryArr[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let home = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-       //  catgory.countaryName = lableCountry.text
-        home.catgory = catgoryArr[indexPath.row].name
-         self.navigationController?.pushViewController(home, animated: true)
+        catgoryTb.cellForRow(at: indexPath)?.accessoryType = .checkmark
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        catgoryTb.cellForRow(at: indexPath)?.accessoryType = .none
+
+    }
+    func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
+        catgoryTb.setEditing(true, animated: true)
+    }
+    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
+        print("\(#function)")
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
 }
