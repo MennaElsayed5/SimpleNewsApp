@@ -8,16 +8,15 @@
 import Foundation
 
 class APIClint:NetworkServiceProtocol {
-//    func getall(completion: @escaping (Result<News, ErrorType>) -> Void) {
-//        request(endpoint: .allNews, method: .GET, compeletion: completion)
-//    }
+    func searchArticales(text: String, completion: @escaping (Result<News, ErrorType>) -> Void) {
+        request(endpoint: .sharch(text: text), method: .GET, compeletion: completion)
+    }
     
     func getNews(countryName: String, catgoryId: String, completion: @escaping (Result<News, ErrorType>) -> Void) {
         request(endpoint: .getNews(country: countryName, catgory: catgoryId), method: .GET, compeletion: completion)
     }
     
-    
-    private let BASE_URL = "https://newsapi.org/v2/top-headlines?"
+    private let BASE_URL = "https://newsapi.org/v2/"
     func request<T:Codable>(endpoint: EndPoints, method: Methods, compeletion: @escaping (Result<T, ErrorType>) -> Void) {
         let path = "\(BASE_URL)\(endpoint.path)"
         let urlString = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)

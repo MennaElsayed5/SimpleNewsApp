@@ -6,23 +6,87 @@
 //
 
 import UIKit
+import RxSwift
+import Kingfisher
+class SearchViewController: UIViewController,UISearchBarDelegate {
 
-class SearchViewController: UIViewController {
-
+    @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var searchTb: UITableView!
-    
+    var newsViewModel: NewsViewModel?
+    let disBag = DisposeBag()
+    var arrayOfArticle: [Article] = []
+    private  var isConn:Bool = false
+    private  let refreshController = UIRefreshControl()
+    @IBOutlet weak var noSershView: UIView!
+    @IBOutlet weak var noConnctionView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        newsViewModel = NewsViewModel(appDelegate: ((UIApplication.shared.delegate as? AppDelegate)!))
         self.searchTb.delegate=self
              self.searchTb.dataSource=self
         let newsCell = UINib(nibName: "NewsTableViewCell", bundle: nil)
         searchTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
-
-        // Do any additional setup after loading the view.
+        searchBar.delegate=self
+        refreshController.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        searchTb.addSubview(refreshController)
+    }
+    func searchRequest(){
+        self.searchTb.isHidden=true
+        newsViewModel?.searchArticales(text: "\(searchBar.text ?? "news")")
+        newsViewModel?.searchObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe { news in
+                if news.count == 0 {
+                    self.noSershView.isHidden=false
+                    
+                }
+                else{
+                    self.noSershView.isHidden=true
+                    self.arrayOfArticle = news
+                    print("newwws\(news.count)")
+                    self.searchTb.reloadData()
+                }
+            } onError: { error in
+                print(error)
+            }.disposed(by: disBag)
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+       checkNetwork()
+    }
+    func checkNetwork() {
+        newsViewModel?.checkConnection()
+        newsViewModel?.networkObservable.subscribe {[weak self] isConn in
+            self?.isConn = isConn
+            if isConn == false{
+               self?.noConnctionView.isHidden = false
+                self?.noSershView.isHidden=true
+            }else{
+               self?.noConnctionView.isHidden = true
+                self?.noSershView.isHidden=false
 
+                self?.searchRequest()
+            }
+        } onError: { error in
+            print("connection error network")
+        } onCompleted: {
+            print("onComplete network")
+        } onDisposed: {
+            print("ondispose network")
+        }.disposed(by: disBag)
+
+    }
+    @objc func pullToRefresh(){
+        refreshController.beginRefreshing()
+        checkNetwork()
+        DispatchQueue.main.asyncAfter(deadline: .now()+5) {
+            if self.refreshController.isRefreshing{
+                self.refreshController.endRefreshing()
+            }
+        }
+        
+    }
     /*
     // MARK: - Navigation
 
@@ -33,24 +97,4 @@ class SearchViewController: UIViewController {
     }
     */
 
-}
-extension SearchViewController: UITableViewDelegate,UITableViewDataSource{
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell") as! NewsTableViewCell
-        return cell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-            return 230
-       }
-       func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-           return 60
-       }
-    
 }
