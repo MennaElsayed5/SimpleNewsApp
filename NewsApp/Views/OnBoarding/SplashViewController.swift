@@ -33,11 +33,6 @@ class SplashViewController: UIViewController {
             }else{
                 Utilities.utilities.setIsFirstTimeInApp()
                 self.navigationController?.pushViewController(onboarding, animated: true)
-                //self.navigationController?.pushViewController(a, animated: true)
-//                let detailsVc = self.storyboard?.instantiateViewController(identifier: "LeaguesDetailsViewController") as! LeaguesDetailsViewController
-//
-//                detailsVc.countries = country[indexPath.row]
-//                self.navigationController?.pushViewController(detailsVc, animated: true)
             }
             
         }

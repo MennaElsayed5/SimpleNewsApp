@@ -20,7 +20,7 @@ class ListNewsViewController: UIViewController {
    private  var isConn:Bool = false
    private  let refreshController = UIRefreshControl()
     @IBOutlet weak var notConnectionView: UIView!
-    
+    let dispatchGroup = DispatchGroup()
     override func viewDidLoad() {
         super.viewDidLoad()
         newsViewModel = NewsViewModel()
@@ -30,27 +30,24 @@ class ListNewsViewController: UIViewController {
         newsTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
         refreshController.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         newsTb.addSubview(refreshController)
-       // dataRequest()
-        // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         checkNetwork()
         getArticlesFromCoreData()
-
     }
-    func fetchData(){
-        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[0] as! String )
-        print("country\(Utilities.utilities.getUserCountry())")
-        print("country\(Utilities.utilities.getArrCotgory()[0])")
-        newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
-            .observe(on: MainScheduler.asyncInstance)
-            .subscribe { news in
-                self.arrayOfArticle = news
-                print("newwws\(news.count)")
-                self.newsTb.reloadData()
-            } onError: { error in
-                print(error)
-            }.disposed(by: disBag)
+    func dataRequest(){
+        dispatchGroup.enter()
+        Firstfetch()
+        dispatchGroup.leave()
+        dispatchGroup.enter()
+        secFetch()
+        dispatchGroup.leave()
+        dispatchGroup.enter()
+        thirdFetch()
+        dispatchGroup.leave()
+        dispatchGroup.notify(queue: .main) {
+            self.refreshController.endRefreshing()
+        }
     }
     func checkNetwork() {
         newsViewModel?.checkConnection()
@@ -60,14 +57,10 @@ class ListNewsViewController: UIViewController {
                 self?.notConnectionView.isHidden = false
             }else{
                 self?.notConnectionView.isHidden = true
-                self?.fetchData()
+                self?.dataRequest()
             }
         } onError: { error in
             print("connection error network")
-        } onCompleted: {
-            print("onComplete network")
-        } onDisposed: {
-            print("ondispose network")
         }.disposed(by: disBag)
 
     }
@@ -81,61 +74,52 @@ class ListNewsViewController: UIViewController {
         }
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 extension ListNewsViewController{
-    func getArticlesFromCoreData(){
-        do{
-            try  newsViewModel?.getAllnewsInCoreData(completion: { response in
-                //MARK: LSA M5LST4
-                switch response{
-                case true:
-                    print("data retrived successfuly")
-                case false:
-                    print("data cant't retrieved")
-                }
-            })
-        }
-        catch let error{
-            print(error.localizedDescription)
-        }
-        articles = (newsViewModel?.articleList)!
-        newsTb.reloadData()
-            }
-    func deleteItemFromCoreData(index:IndexPath){
-        do{
-            try self.newsViewModel?.removeNewsFromCoreDatat(title: "\(arrayOfArticle[index.row].title ?? "title")", completionHandler: { result in
-                switch result{
-                case true:
-                print("remove from cart")
-                self.getArticlesFromCoreData()
-                Utilities.utilities.showMessage(message: "remove from Favourite", error: false)
+    func Firstfetch(){
+        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[0] as! String )
+        newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe { news in
+                self.arrayOfArticle = news
                 self.newsTb.reloadData()
-                case false:
-                    print("cann't delet")
-                        }
-            })
-        }
-        catch let error{
-            print(error.localizedDescription)
-        }
+            } onError: { error in
+                print(error)
+            } onCompleted: {
+                self.dispatchGroup.leave()
+            }.disposed(by: disBag)
     }
-    func
-    showDeleteAlert(indexPath:IndexPath){
-        let alert = UIAlertController(title: "Already Saved", message: "Are You remove this item from the Fav", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-        alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { [self] UIAlertAction in
-        self.deleteItemFromCoreData(index: indexPath)
-        }))
-        self.present(alert, animated: true, completion: nil)
+    func secFetch() {
+        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[1] as! String )
+        newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe { news in
+                DispatchQueue.main.asyncAfter(deadline:.now()+2.0){
+                self.arrayOfArticle.append(contentsOf: news)
+                    self.newsTb.reloadData()
+                }
+            } onError: { error in
+                print(error)
+            }onCompleted: {
+                self.dispatchGroup.leave()
+            }
+            .disposed(by: disBag)
+    }
+    func thirdFetch(){
+        newsViewModel?.getNewsFromApi(countryName:Utilities.utilities.getUserCountry(), catgoryId: Utilities.utilities.getArrCotgory()[2] as! String )
+        newsViewModel?.newsObservable.subscribe(on: ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe { news in
+                DispatchQueue.main.asyncAfter(deadline:.now()+4.0){
+                self.arrayOfArticle.append(contentsOf: news)
+                self.newsTb.reloadData()
+                }
+            } onError: { error in
+                print(error)
+            } onCompleted: {
+                self.dispatchGroup.leave()
+            }
+            .disposed(by: disBag)
     }
 }

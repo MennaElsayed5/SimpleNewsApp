@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 protocol LocalDataSourcable{
-    func saveArticleToCoreData(articles: Articles) throws
     func removeArticleFromCoreData(articleTitle: String) throws
     func getArticleFromCoreData() throws -> [Articles]
     func isFavouriteArticle(data: String,auther:String) throws -> Bool
@@ -22,27 +21,6 @@ class LocalDataSource:LocalDataSourcable{
         entity = NSEntityDescription.entity(forEntityName: "Articles", in: context)
       
     }
-    func saveArticleToCoreData(articles: Articles) throws {
-        let product = NSManagedObject(entity: entity, insertInto: context)
-//        let artile = NSManagedObject(entity: entity, insertInto: context)
-//        artile.setValue(articles.title, forKey: "articleTitle")
-//        artile.setValue(articles.urlToImage, forKey: "articleImg")
-//        artile.setValue(articles.description, forKey: "articleDesc")
-//        artile.setValue(articles.source?.name, forKey: "articleSource")
-//        artile.setValue(articles.publishedAt, forKey: "articleData")
-
-        product.setValue(articles.articleTitle, forKey: "articleTitle")
-        product.setValue(articles.articleImg, forKey: "articleImg")
-        product.setValue(articles.articleDesc, forKey: "articleDesc")
-        product.setValue(articles.articleSource, forKey: "articleSource")
-        product.setValue(articles.articleData, forKey: "articleData")
-        do{
-            try context.save()
-            
-        }catch let error as NSError{
-            throw error
-        }
-    }
     func saveoCoreData(title: String,img:String,desc:String,source:String, data: String, auther:String )throws{
         let news = Articles(entity: entity, insertInto: context)
         news.articleTitle=title
@@ -51,14 +29,12 @@ class LocalDataSource:LocalDataSourcable{
         news.articleSource=source
         news.articleData=data
         news.auther=auther
-
         do{
             try context.save()
 
         }catch let error as NSError{
             throw error
         }
-
 
     }
     func removeArticleFromCoreData(articleTitle: String) throws{
@@ -84,8 +60,6 @@ class LocalDataSource:LocalDataSourcable{
             for item in articlesList {
                 articlesSelect.append(item)
             }
-            
-            
             return articlesSelect
         }
         catch let error as NSError{

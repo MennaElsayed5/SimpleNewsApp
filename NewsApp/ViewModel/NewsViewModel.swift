@@ -51,7 +51,6 @@ final class NewsViewModel:NewsProtocolViewModel{
             case .success(let response):
                 guard let newsData = response.articles else{return}
                 self?.allnewsSubject.asObserver().onNext(newsData)
-                print("vmNews\(newsData.count)")
             case .failure(let error):
                 self?.allnewsSubject.asObserver().onError(error)
             }
@@ -64,7 +63,6 @@ final class NewsViewModel:NewsProtocolViewModel{
             case .success(let response):
                 guard let newsData = response.articles else{return}
                 self?.searchSubject.asObserver().onNext(newsData)
-                print("vmNews\(newsData.count)")
             case .failure(let error):
                 self?.searchSubject.asObserver().onError(error)
             }
