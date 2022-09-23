@@ -18,11 +18,11 @@ class CountryOnBoardingViewController: UIViewController {
         super.viewDidLoad()
         dropDown.anchorView = onboardingView // UIView or UIBarButtonItem
         dropDown.dataSource = countryArray
-      
         dropDown.selectionAction = {
             [unowned self] (index: Int, item: String) in
             self.lableCountry.text = countryArray[index]
         }
+        
         // Do any additional setup after loading the view.
     }
     

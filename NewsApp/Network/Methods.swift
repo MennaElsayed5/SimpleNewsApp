@@ -8,7 +8,6 @@
 import Foundation
 
 enum Methods {
-
     case GET
     case POST
     case PUT

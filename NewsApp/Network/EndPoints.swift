@@ -7,8 +7,6 @@
 
 import Foundation
 private let KEY = "17cac229363b4302bf0a6fb608994a89"
-// "https://newsapi.org/v2/"
-// https://newsapi.org/v2/everything?q=bitcoin&apiKey=17cac229363b4302bf0a6fb608994a89
 enum EndPoints {
     case getNews(country:String,catgory:String)
     case sharch(text:String)

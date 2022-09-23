@@ -19,8 +19,6 @@ class FavViewController: UIViewController {
         let newsCell = UINib(nibName: "NewsTableViewCell", bundle: nil)
         favTb.register(newsCell, forCellReuseIdentifier: "NewsTableViewCell")
         newsViewModel=NewsViewModel()
-
-        // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         getArticlesFromCoreData()
@@ -31,6 +29,19 @@ class FavViewController: UIViewController {
 
         }
     }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
+extension FavViewController{
     func getArticlesFromCoreData(){
         do{
             try  newsViewModel?.getAllnewsInCoreData(completion: { response in
@@ -46,13 +57,13 @@ class FavViewController: UIViewController {
         }
         articles = (newsViewModel?.articleList)!
         favTb.reloadData()
-            }
+    }
+    
     func deleteItemFromCoreData(index:IndexPath){
         do{
             try self.newsViewModel?.removeNewsFromCoreDatat(title: "\(articles[index.row].articleTitle ?? "title")", completionHandler: { result in
                 switch result{
                  case true:
-                print("remove from cart")
                 self.getArticlesFromCoreData()
                 Utilities.utilities.showMessage(message: "remove from Favourite", error: false)
                     self.favTb.reloadData()
@@ -61,13 +72,14 @@ class FavViewController: UIViewController {
                     }
                 case false:
                 print("can't delet")
-             }
-            })
+                  }
+                })
         }
         catch let error{
             print(error.localizedDescription)
         }
     }
+    
     func showDeleteAlert(indexPath:IndexPath){
         let alert = UIAlertController(title: "Are you sure?", message: "You will remove this item from the Fav", preferredStyle: .alert)
          alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
@@ -76,14 +88,5 @@ class FavViewController: UIViewController {
          self.present(alert, animated: true, completion: nil)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

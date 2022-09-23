@@ -24,6 +24,7 @@ extension FavViewController: UITableViewDelegate,UITableViewDataSource{
                cell.imgNews.kf.indicatorType = .activity
                cell.imgNews.kf.setImage(
                    with: url,
+                   placeholder: UIImage(named: "news"),
                    options: [
                        .processor(processor),
                        .scaleFactor(UIScreen.main.scale),
@@ -39,7 +40,7 @@ extension FavViewController: UITableViewDelegate,UITableViewDataSource{
                cell.addToFav = {
                    self.showDeleteAlert(indexPath: indexPath)
                }
-        cell.favBtn.setTitle("", for: .normal)
+               cell.favBtn.setTitle("", for: .normal)
                cell.favBtn.setImage(UIImage(systemName: "trash"), for : UIControl.State.normal)
                return cell
            }

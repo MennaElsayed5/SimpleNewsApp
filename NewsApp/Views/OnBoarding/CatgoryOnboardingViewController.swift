@@ -18,8 +18,6 @@ class CatgoryOnboardingViewController: UIViewController {
         catgoryTb.register(catgoryCell, forCellReuseIdentifier: "CatgoryTableViewCell")
         catgoryTb.allowsSelectionDuringEditing=true
     }
- 
-    var arr = [String]()
     @IBAction func stattBtn(_ sender: Any) {
           let home = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
         items.removeAll()
@@ -69,16 +67,12 @@ extension CatgoryOnboardingViewController: UITableViewDataSource,UITableViewDele
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         catgoryTb.cellForRow(at: indexPath)?.accessoryType = .none
-
     }
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
         true
     }
     func tableView(_ tableView: UITableView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
         catgoryTb.setEditing(true, animated: true)
-    }
-    func tableViewDidEndMultipleSelectionInteraction(_ tableView: UITableView) {
-        print("\(#function)")
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50

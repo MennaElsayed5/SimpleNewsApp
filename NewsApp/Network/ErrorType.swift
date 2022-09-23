@@ -8,7 +8,6 @@
 import Foundation
 
 enum ErrorType:Error {
-    
     case InternalError
     case ServerError
     case parsingError

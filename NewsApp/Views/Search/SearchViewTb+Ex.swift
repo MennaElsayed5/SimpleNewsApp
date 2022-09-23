@@ -20,11 +20,12 @@ extension SearchViewController: UITableViewDelegate,UITableViewDataSource{
                 let url = URL(string: arrayOfArticle[indexPath.row].urlToImage ?? "news")
                 let processor = DownsamplingImageProcessor(size: cell.imgNews.bounds.size)
                              |> RoundCornerImageProcessor(cornerRadius: 20)
-               cell.newsTitle.text = arrayOfArticle[indexPath.row].title
+                cell.newsTitle.text = arrayOfArticle[indexPath.row].title
                 cell.newsTitle.isUserInteractionEnabled=true
                 cell.imgNews.kf.indicatorType = .activity
                 cell.imgNews.kf.setImage(
                     with: url,
+                    placeholder: UIImage(named: "news"),
                     options: [
                         .processor(processor),
                         .scaleFactor(UIScreen.main.scale),
@@ -38,25 +39,12 @@ extension SearchViewController: UITableViewDelegate,UITableViewDataSource{
                 cell.source.text = arrayOfArticle[indexPath.row].source?.name
                 cell.date.text = arrayOfArticle[indexPath.row].publishedAt
                 cell.addToFav={ [self] in
-                    newsViewModel?.checkNewsInCoreData(data: arrayOfArticle[indexPath.row].publishedAt ?? "title", auther: arrayOfArticle[indexPath.row].author ?? "auther")
+                    checkIsFav(indexPath: indexPath)
                     isFav = newsViewModel?.isFav
                     if (isFav!) {
                         self.showDeleteAlert(indexPath: indexPath)
                     }else{
-                        do{
-                            try newsViewModel?.saveoCoreData(title: arrayOfArticle[indexPath.row].title ?? "title", img: arrayOfArticle[indexPath.row].urlToImage ?? "news", desc:arrayOfArticle[indexPath.row].description ?? "des", source: arrayOfArticle[indexPath.row].source?.name ?? "source", data: arrayOfArticle[indexPath.row].publishedAt ?? "2022/9/23", auther: arrayOfArticle[indexPath.row].author ?? "auther", completion: {  result in
-                                  switch result{
-                                  case true:
-                                      Utilities.utilities.showMessage(message: "added to Favourite", error: false)
-                                      print("add to core ")
-                                  case false :
-                                      print("faild to add to core")
-                                  }
-                              })
-                          }
-                      catch let error{
-                              print(error.localizedDescription)
-                          }
+                        saveToCoreData(indexPath: indexPath)
                     }
                 }
         
@@ -71,5 +59,5 @@ extension SearchViewController: UITableViewDelegate,UITableViewDataSource{
     }
            func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
                return 60
-           }
+    }
 }
