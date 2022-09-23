@@ -79,3 +79,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+enum Theme: Int{
+    case light
+    case dark
+    func getUserInterfaceStyle()->UIUserInterfaceStyle{
+        switch self{
+        case .light:
+            return .light
+        case .dark:
+            return .dark
+        }
+    }
+}
