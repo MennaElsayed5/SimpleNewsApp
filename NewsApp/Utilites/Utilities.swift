@@ -43,6 +43,14 @@ class Utilities{
         config.presentationStyle = .top
         SwiftMessages.show(config: config, view: view)
     }
+    var theme: Theme{
+        get{
+            return Theme(rawValue: UserDefaults.standard.integer(forKey: "selectedTheme")) ?? .light
+        }
+        set{
+            UserDefaults.standard.set(newValue.rawValue, forKey: "selectedTheme")
+        }
+    }
 }
 extension UIViewController{
     func alertWarning(indexPath:IndexPath,title:String,message:String){

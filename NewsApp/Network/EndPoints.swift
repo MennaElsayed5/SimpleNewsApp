@@ -6,7 +6,7 @@
 //
 
 import Foundation
-private let KEY = "17cac229363b4302bf0a6fb608994a89"
+private let KEY = "cfb6154624504c3a9e93bc4ab969e941"
 enum EndPoints {
     case getNews(country:String,catgory:String)
     case sharch(text:String)
