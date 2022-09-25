@@ -90,7 +90,7 @@
         <!--Search View Controller-->
         <scene sceneID="UkK-Qm-Ttp">
             <objects>
-                <viewController id="WYi-Z3-Ph7" customClass="SearchViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SearchViewController" id="WYi-Z3-Ph7" customClass="SearchViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tuW-2U-WMh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -214,7 +214,7 @@
         <!--Fav View Controller-->
         <scene sceneID="nAU-AW-N3p">
             <objects>
-                <viewController id="Rxn-2H-KAD" customClass="FavViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FavViewController" id="Rxn-2H-KAD" customClass="FavViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="giq-yo-k0x">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -291,7 +291,7 @@
         <!--Settings View Controller-->
         <scene sceneID="R6G-UN-cny">
             <objects>
-                <viewController id="cOP-Lr-HdP" customClass="SettingsViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="cOP-Lr-HdP" customClass="SettingsViewController" customModule="NewsApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gvo-if-I63">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -304,7 +304,6 @@
                                     <segment title="dark"/>
                                 </segments>
                                 <connections>
-                                    <action selector="segment:" destination="cOP-Lr-HdP" eventType="valueChanged" id="aCC-sC-3ya"/>
                                     <action selector="selectTheme:" destination="cOP-Lr-HdP" eventType="valueChanged" id="hfr-Ux-xVk"/>
                                 </connections>
                             </segmentedControl>
@@ -330,6 +329,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" systemItem="more" id="0uX-N8-sQQ"/>
+                    <connections>
+                        <outlet property="segment" destination="9qc-vE-jYb" id="BD0-H4-vDS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3DQ-Lo-vlw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -434,15 +436,12 @@
                             <constraint firstItem="id6-6m-VlP" firstAttribute="leading" secondItem="KiB-FY-6Tk" secondAttribute="leading" constant="22" id="FRs-4Q-U3f"/>
                             <constraint firstItem="KiB-FY-6Tk" firstAttribute="trailing" secondItem="id6-6m-VlP" secondAttribute="trailing" constant="34" id="GER-iM-rfJ"/>
                             <constraint firstItem="KiB-FY-6Tk" firstAttribute="trailing" secondItem="sEy-tr-E0v" secondAttribute="trailing" constant="20.666666666666686" id="KH6-Tj-1Ee"/>
-                            <constraint firstItem="id6-6m-VlP" firstAttribute="width" secondItem="eAP-pA-wIT" secondAttribute="width" multiplier="0.864734" id="Mfc-m3-2S5"/>
                             <constraint firstItem="sEy-tr-E0v" firstAttribute="height" secondItem="eAP-pA-wIT" secondAttribute="height" multiplier="0.062128" id="NL9-wq-6rH"/>
                             <constraint firstItem="ReI-2i-RRT" firstAttribute="top" secondItem="KiB-FY-6Tk" secondAttribute="top" constant="86" id="VSr-uj-Dgw"/>
                             <constraint firstItem="ReI-2i-RRT" firstAttribute="leading" secondItem="KiB-FY-6Tk" secondAttribute="leading" constant="63" id="bHr-no-r07"/>
-                            <constraint firstItem="ReI-2i-RRT" firstAttribute="width" secondItem="eAP-pA-wIT" secondAttribute="width" multiplier="0.722222" id="lFo-4t-vg5"/>
                             <constraint firstItem="sEy-tr-E0v" firstAttribute="leading" secondItem="KiB-FY-6Tk" secondAttribute="leading" constant="261" id="o1X-7x-HGJ"/>
                             <constraint firstItem="sEy-tr-E0v" firstAttribute="top" secondItem="DlM-4f-Ird" secondAttribute="bottom" constant="485" id="vO4-WS-jtr"/>
                             <constraint firstItem="KiB-FY-6Tk" firstAttribute="bottom" secondItem="id6-6m-VlP" secondAttribute="bottom" constant="605" id="vkg-Qo-tEm"/>
-                            <constraint firstItem="sEy-tr-E0v" firstAttribute="width" secondItem="eAP-pA-wIT" secondAttribute="width" multiplier="0.319646" id="xZP-Ve-8MO"/>
                         </constraints>
                     </view>
                     <connections>
@@ -552,7 +551,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="red-orange">
-            <color red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.14900000393390656" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
