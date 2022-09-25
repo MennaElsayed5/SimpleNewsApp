@@ -3,12 +3,16 @@ PODS:
   - Kingfisher (7.2.1)
   - lottie-ios (3.3.0)
   - ReachabilitySwift (5.0.0)
+  - RxBlocking (6.5.0):
+    - RxSwift (= 6.5.0)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
+  - RxTest (6.5.0):
+    - RxSwift (= 6.5.0)
   - SwiftMessages (9.0.6):
     - SwiftMessages/App (= 9.0.6)
   - SwiftMessages/App (9.0.6)
@@ -18,8 +22,10 @@ DEPENDENCIES:
   - Kingfisher (~> 7.0)
   - lottie-ios
   - ReachabilitySwift
+  - RxBlocking (= 6.5.0)
   - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
+  - RxTest (= 6.5.0)
   - SwiftMessages
 
 SPEC REPOS:
@@ -28,9 +34,11 @@ SPEC REPOS:
     - Kingfisher
     - lottie-ios
     - ReachabilitySwift
+    - RxBlocking
     - RxCocoa
     - RxRelay
     - RxSwift
+    - RxTest
     - SwiftMessages
 
 SPEC CHECKSUMS:
@@ -38,11 +46,13 @@ SPEC CHECKSUMS:
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  RxBlocking: 04b5fd28bb5ea49f7d64b80db8bbfe50d9cc1c7d
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  RxTest: eb2d23adefc5a5ebf5779c7792fa3edfe6ebcc17
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
 
-PODFILE CHECKSUM: 4fe0f37681fac2b9e4a68b5df95d06a81c7c5eaa
+PODFILE CHECKSUM: e6fcecb29ce73ea1031b3514502f8c58fb2b2db8
 
 COCOAPODS: 1.11.3

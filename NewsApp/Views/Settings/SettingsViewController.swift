@@ -9,26 +9,12 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    @IBOutlet weak var segment: UISegmentedControl!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-    @IBAction func segment(_ sender: Any) {
-    }
-    @IBAction func darkMoodSwitch(_ sender: UISwitch) {
-//        if #available(iOS 13.0, *){
-//            let appDelegaget = UIApplication.shared.windows.first
-//            if sender.isOn {
-//            appDelegaget?.overrideUserInterfaceStyle = .dark
-//            return
-//        }
-//        appDelegaget?.overrideUserInterfaceStyle = .light
-//        }
-
-    }
-    
+  
     @IBAction func selectTheme(_ sender: UISegmentedControl) {
         Utilities.utilities.theme = Theme(rawValue: sender.selectedSegmentIndex) ?? .light
         self.view.window?.overrideUserInterfaceStyle = Utilities.utilities.theme.getUserInterfaceStyle()
