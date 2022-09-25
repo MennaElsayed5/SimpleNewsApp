@@ -12,6 +12,9 @@ pod 'ReachabilitySwift'
 pod 'lottie-ios'
 pod 'DropDown'
 pod 'SwiftMessages'
-
+target 'NewsAppTests' do
+    pod 'RxBlocking', '6.5.0'
+    pod 'RxTest', '6.5.0'
+end
 
 end

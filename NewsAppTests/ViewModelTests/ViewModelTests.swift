@@ -11,15 +11,16 @@ import RxSwift
 class ViewModelTests: XCTestCase {
 
     var sut : NewsProtocolViewModel?
-  // var disBag : DisposeBag?
+    var disBag : DisposeBag?
     override func setUpWithError() throws {
         sut = NewsViewModel()
-   //     disBag = DisposeBag()
+       disBag = DisposeBag()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDownWithError() throws {
         sut = nil
+      //  disBag = nil
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     func testCheckNewsInCoreData(){
@@ -66,15 +67,25 @@ class ViewModelTests: XCTestCase {
         waitForExpectations(timeout: 2.0)
         
     }
-//    func testGetNewsFromApi(){
-//        let expect = expectation(description: "load response")
-//        sut?.newsObservable.asObservable().subscribe{
-//            result in
-//            expect.fulfill()
-//            XCTAssertNotNil(result.element)
-//        }.disposed(by: disBag!)
-//        sut?.getNewsFromApi(countryName: "us", catgoryId: "sport")
-//        waitForExpectations(timeout: 5)
-//    }
+    func testSearchNews(){
+        let expect = expectation(description: "load response")
+        sut?.searchObservable.asObservable().subscribe{
+            result in
+            expect.fulfill()
+            XCTAssertNotNil(result.element)
+        }.disposed(by: disBag!)
+        sut?.searchArticales(text: "news")
+        waitForExpectations(timeout: 5)
+    }
+    func testGetNewsFromApi(){
+        let expect = expectation(description: "load response")
+        sut?.newsObservable.asObservable().subscribe{
+            result in
+            expect.fulfill()
+            XCTAssertNotNil(result.element)
+        }.disposed(by: disBag!)
+        sut?.getNewsFromApi(countryName: "us", catgoryId: "sport")
+        waitForExpectations(timeout: 5)
+    }
     
 }

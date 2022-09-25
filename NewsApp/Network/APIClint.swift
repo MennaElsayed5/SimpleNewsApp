@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+//https://newsapi.org/v2/top-headlines?country=us&sortBy=publishedAt&category=health&pageSize=100&apiKey=cfb6154624504c3a9e93bc4ab969e941
 class APIClint:NetworkServiceProtocol {
     func searchArticales(text: String, completion: @escaping (Result<News, ErrorType>) -> Void) {
         request(endpoint: .sharch(text: text), method: .GET, compeletion: completion)
